@@ -1,0 +1,33 @@
+name: CI for Email Alerts
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Define the operating system
+
+    steps:
+    - uses: actions/checkout@v2  # Check out the code from the repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Install Python
+      with:
+        python-version: "3.11.9"  
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -  # Install Poetry
+        poetry config virtualenvs.in-project true  # Make the virtualenv in the project directory
+        poetry install  # Install the project dependencies
+
+    - name: Install the package
+      run: |
+        poetry install  # Install the package (email-alerts)
+
+    - name: Run Ruff Formatter
+      run: |
+        poetry run ruff check .  # Run ruff to check code formatting
+
+    - name: Build Documentation
+      run: |
+        poetry run sphinx-build -b html docs/ docs/_build/html  # Build documentation with Sphinx
