@@ -22,7 +22,7 @@ jobs:
 
     - name: Install the package
       run: |
-        poetry install  # Install the package (email-alerts)
+        poetry install  # Install the package (email_alerts)
 
     - name: Run Ruff Formatter
       run: |
